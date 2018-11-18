@@ -1,0 +1,42 @@
+H BROS FRONT END MENU
+=====================
+What's the big idea?
+. The H Bros online ordering is ugly and confusing.
+. We should replace it with a friendlier front end,
+. which would allow users to create custom plates
+. far more easily, as well as allow them to get a
+. better idea of what they're ordering.
+What's the design?
+. I intend on creating a simple visual menu similar
+. to how pizza places have their menus. There will be
+. a sidebar to the right with menu options as well as
+. a table (or something) with images in it, which will
+. change depending on the item being ordered.
+. The order will then go through Toast's API and through
+. their order processing system. I'll have to collaborate
+. with them on that front, as I don't know how their
+. API works, or how to access it.
+What's the schedule?
+. I am set to have a prototype ready by December 14th,
+. one month from today (Nov. 14th). Hopefully I can have
+. it done by then!
+. A detailed schedule is yet to be made. I have 4.5 weeks.
+.. Week 0.5 - 1.5: Rough sketch - Get a page running
+.. that has the sidebar and responsive menu.
+.. Week 1.5 - 2.5: Refine - Make sure all parts are running
+.. smoothly. Add sample images. Begin linking with an example
+.. server (use your x10 hosting).
+.. Week 2.5 - 3.5: Perhaps begin work on a mobile adaptation.
+.. Week 3.5 - 4.5: Polish! Get ready for a demo.
+
+NOTES
+Essential commands:
+  Start a new project: npm init
+  Open app: nodemon <app>
+
+
+LOG
+11-14-18
+. Set up boilerplate code. Got a simple webpage rendering.
+11-16-18
+. Learned some jQuery. Set up the side bar.

@@ -1,0 +1,15 @@
+{
+  "name": "hbros_fronted_proto",
+  "version": "1.0.0",
+  "description": "A prototype for a user-friendly online ordering front end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "phoenix mandala",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}

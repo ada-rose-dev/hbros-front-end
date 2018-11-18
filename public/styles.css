@@ -1,0 +1,31 @@
+.flex-container {
+  display:flex;
+}
+
+main {
+  background-color: #eee;
+  width: 70%;
+  position: relative;
+}
+table {
+  width: 100%;
+  table-layout: fixed;
+  border: 2px solid black;
+}
+td {
+  border: 1px solid black;
+}
+
+sidebar {
+  background-color: #ccc;
+  width: 30%;
+  position: relative;
+}
+
+div.tab {
+  border: 1px solid black;
+  padding: 0 auto 0 auto;
+}
+div.tab-content {
+  border: 1px solid black;
+}
