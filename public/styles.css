@@ -6,6 +6,7 @@ main {
   background-color: #eee;
   width: 70%;
   position: relative;
+  height: 100%;
 }
 table {
   width: 100%;
@@ -27,5 +28,15 @@ div.tab {
   padding: 0 auto 0 auto;
 }
 div.tab-content {
+  display: none;
   border: 1px solid black;
+}
+
+img {
+  width: auto;
+  height: auto;
+}
+
+td#salad img {
+  position: absolute;
 }

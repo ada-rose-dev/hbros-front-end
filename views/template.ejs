@@ -10,7 +10,7 @@
   <h1>H Bros</h1>
 <div class="flex-container">
   <main>
-    <table>
+    <table id="plate">
       <tbody>
         <tr>
           <td id="side1">
@@ -21,6 +21,9 @@
           </td>
         </tr>
         <tr>
+          <td id="bun">
+            text
+          </td>
           <td id="bed">
             text
           </td>
@@ -30,15 +33,36 @@
         </tr>
       </tbody>
     </table>
+
+    <table id="salad" style="display:none">
+      <tbody>
+        <tr>
+          <td id="salad"><img src="./img/classic/salad_lettuce.png"/></td>
+        </tr>
+      </tbody>
+    </table>
   </main>
 
   <sidebar>
-    <div class="tab">
-      <span class="tab-head"><h2>Entree</h2></span>
+    <div class="tab" id="plate">
+      <span class="tab-head" id="plate"><h2>Plate</h2></span>
+      <div class="tab-content">
+        <form>
+          <input type="radio" name="plate" value="small"> Small </input>
+          <input type="radio" name="plate" value="classic" checked> Classic </input>
+          <input type="radio" name="plate" value="large"> Large </input>
+          <input type="radio" name="plate" value="salad"> Salad </input>
+          <input type="radio" name="plate" value="sandwich"> Sandwich </input>
+        </form>
+      </div>
+    </div>
+
+    <div class="tab" id="entree">
+      <span class="tab-head" id="entree"><h2>Entree</h2></span>
       <div class="tab-content">
         <form>
           <input type="radio" name="entree" value="1" checked>
-            Huli Huli chicken
+            Huli Huli Chicken
           </input>
           <input type="radio" name="entree" value="2">
             Molokai Chicken
@@ -56,22 +80,22 @@
       </div>
     </div>
 
-    <div class="tab">
-      <span class="tab-head"><h2>Bed</h2></span>
+    <div class="tab" id="bed">
+      <span class="tab-head" id="bed"><h2>Bed</h2></span>
       <div class="tab-content">
         <form>
           <input type="radio" name="bed" value="rice" checked>
             Rice
           </input>
-          <input type="radio" name="bed" value="vegetables">
+          <input type="radio" name="bed" value="veg">
             Grilled Vegetables
           </input>
         </form>
       </div>
     </div>
 
-    <div class="tab">
-      <span class="tab-head"><h2>Side 1</h2></span>
+    <div class="tab" id="side1">
+      <span class="tab-head" id="side1"><h2>Side 1</h2></span>
       <div class="tab-content">
         <form>
           <input type="radio" name="side1" value="rice" checked>
@@ -80,18 +104,18 @@
           <input type="radio" name="side1" value="mac">
             Macaroni Salad
           </input>
-          <input type="radio" name="side1" value="vegetables">
+          <input type="radio" name="side1" value="veg">
             Grilled Vegetables
           </input>
-          <input type="radio" name="side1" value="pineapple">
+          <input type="radio" name="side1" value="pine">
             Pineapple
           </input>
         </form>
       </div>
     </div>
 
-    <div class="tab">
-      <span class="tab-head"><h2>Side 2</h2></span>
+    <div class="tab" id="side2">
+      <span class="tab-head" id="side2"><h2>Side 2</h2></span>
       <div class="tab-content">
         <form>
           <input type="radio" name="side2" value="rice" checked>
@@ -100,12 +124,35 @@
           <input type="radio" name="side2" value="mac">
             Macaroni Salad
           </input>
-          <input type="radio" name="side2" value="vegetables">
+          <input type="radio" name="side2" value="veg">
             Grilled Vegetables
           </input>
-          <input type="radio" name="side2" value="pineapple">
+          <input type="radio" name="side2" value="pine">
             Pineapple
           </input>
+        </form>
+      </div>
+    </div>
+
+    <div class="tab" id="bun">
+        <span class="tab-head" id="bun"><h2>Bun</h2></span>
+        <div class="tab-content">
+          <form>
+            <input type="checkbox" name="bun" value="_toasted" checked>Toasted</input>
+            <input type="checkbox" name="bun" value="_mayo" checked>Mayo</input>
+          </form>
+        </div>
+    </div>
+
+    <div class="tab" id="salad">
+      <span class="tab-head" id="salad"><h2>Salad</h2></span>
+      <div class="tab-content">
+        <form>
+          <input type="checkbox" name="salad" value="_oranges" checked>Oranges</input>
+          <input type="checkbox" name="salad" value="_chowMein" checked>Chow Mein</input>
+          <input type="checkbox" name="salad" value="_cilantro" checked>Cilantro</input>
+          <input type="checkbox" name="salad" value="_mushrooms" checked>Mushrooms</input>
+          <input type="checkbox" name="salad" value="_grOnions" checked>Green Onions</input>
         </form>
       </div>
     </div>
