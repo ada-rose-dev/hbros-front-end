@@ -40,3 +40,8 @@ LOG
 . Set up boilerplate code. Got a simple webpage rendering.
 11-16-18
 . Learned some jQuery. Set up the side bar.
+11-25-18
+. Haven't been keeping up on this log. Since previous entry I've added
+  more or less full functionality to the custom plate builder.
+. Still need to implement mixed plates, and fix up the front-end.
+. Added a folder with design images which will help with production.

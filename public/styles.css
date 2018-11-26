@@ -2,6 +2,17 @@
   display:flex;
 }
 
+header {
+  background-color: #B5E6FF;
+  margin: 0px;
+  padding: 12px;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
 main {
   background-color: #eee;
   width: 70%;
