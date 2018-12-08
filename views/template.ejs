@@ -2,17 +2,67 @@
 
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link href="./styles.css" rel="stylesheet" type="text/css"/>
+  <link href="./css/styles.css" rel="stylesheet" type="text/css"/>
   <script src="./menu.js" type="text/javascript"> </script>
 </head>
 
 <body>
   <header>
-    <h1>h. bros</h1>
+    <a href="#home"> <img src="./img/logos/logo-small.svg"></a>
   </header>
 
-  <div class="flex-container">
-    <main>
+  <div class="page" id="home">
+    <h2>Welcome to Hawaiian Bros!</h2>
+    <h3>Select an option below to add it to your order.</h3>
+    <div class="container" id="home">
+      <ul style="list-style-type:none">
+        <li><a href="#drink">drink</a></li>
+        <li><a href="#food">food</a></li>
+        <li><a href="#sides">sides</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page" id="drink">
+    <div class="subpage" id="drink-main">
+      <h2>Select a drink:</h2>
+      <ul class="drink" id="drink-list">
+        <li>Coke</li>
+        <li>Diet Coke</li>
+        <li>Coke Zero</li>
+        <li>Mellow Yellow</li>
+        <li>Lemonade</li>
+        <li>Dr Pepper</li>
+      </ul>
+      <ul class="drink" id="drink-others">
+        <li>Water Bottle</li>
+        <li>Hawaiian Sun</li>
+      </ul>
+      <button class="back">Back</button>
+    </div>
+
+    <div class="subpage" id="hawaiian-sun">
+      <ul class="drink" id="hawaiian-sun-list">
+        <li>Guava Nectar</li>
+        <li>Passion Orange</li>
+        <li>Lilikoi Passion</li>
+        <li>etc.</li>
+      </ul>
+      <button class="back">Back</button>
+    </div>
+
+    <div class="subpage" id="drink-size">
+      <h2>Select a size:</h2>
+      <ul class="drink" id="drink-size">
+        <li>Medium</li>
+        <li>Large</li>
+      </ul>
+      <button class="back">Back</button>
+    </div>
+  </div>
+
+  <div class="page" id="plateBuilder">
+    <div class="plate">
       <table id="plate">
         <tbody>
           <tr>
@@ -44,7 +94,7 @@
           </tr>
         </tbody>
       </table>
-    </main>
+    </div>
 
     <sidebar>
       <div class="tab" id="plate">
@@ -191,6 +241,7 @@
 
     </sidebar>
   </div>
+
 
   <footer>
 

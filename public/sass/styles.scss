@@ -1,0 +1,56 @@
+.page {
+  display: flex;
+}
+
+header {
+  background-color: #65A8D8;
+  margin: 0px;
+  padding: 4px 8px;
+
+  img {
+      max-height: 100px;
+  }
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.plate {
+    background-color: #fff;
+    width: 70%;
+    position: relative;
+    height: 100%;
+    padding: 50px;
+}
+
+table {
+    width: 100%; /*This should reflect the size of the bg image and the window*/
+    table-layout: fixed;
+    /*border: 2px solid black;*/
+}
+
+sidebar {
+  background-color: #ccc;
+  width: 30%;
+  position: relative;
+}
+
+.tab {
+  border: 1px solid black;
+  padding: 0 auto 0 auto;
+  &-content {
+    display: none;
+    border: 1px solid black;
+  }
+}
+
+img {
+  width: auto;
+  height: auto;
+}
+
+td#salad img {
+  position: absolute;
+}

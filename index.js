@@ -1,5 +1,5 @@
 var express = require('express');
-var controller = require('./controllers/controller.js');
+//var controller = require('./controllers/controller.js');
 
 var app = express();
 //set up EJS as template engine

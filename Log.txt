@@ -34,6 +34,11 @@ Essential commands:
   Start a new project: npm init
   Open app: nodemon <app>
 
+SELLING POINTS
+  SPA means a large customer base won't crash your servers.
+  Dynamic design means menu changes are easy. (TODO)
+  Lightweight design adds to flexibility and quick load times.
+
 
 LOG
 11-14-18
@@ -45,3 +50,7 @@ LOG
   more or less full functionality to the custom plate builder.
 . Still need to implement mixed plates, and fix up the front-end.
 . Added a folder with design images which will help with production.
+. https://www.youtube.com/watch?v=kaBQqhtGUcM See this video for restructuring
+11-27-18
+. Here's how the page/subpage system will work:
+. Pages will load and have their subpages hidden.
