@@ -14,6 +14,40 @@ class OrderItem {
   }
 }
 
+class Plate extends OrderItem {
+  constructor(size, entree, bed, side1, side2) {
+    super("Plate",[size, entree, bed, side1, side2]);
+    this.hot = false;
+  }
+
+  setHot(val) {
+    this.hot = val;
+  }
+}
+
+class SmallPlate extends OrderItem {
+  constructor(entree, bed, side1) {
+    super("SmPlate",[entree, bed, side1]);
+  }
+}
+
+class Salad extends OrderItem {
+  //Entree is a string, the rest should be bools.
+  constructor(entree, saladItems) {
+    super("Salad",[entree, saladItems /*[oranges, chowMein, cilantro, grOnions, mushrooms]*/]);
+  }
+}
+
+class Sandwich extends OrderItem {
+  constructor(entree, side, toasted, mayo)
+  {
+    super("Sandwich",[entree, side, [toasted, mayo]]);
+  }
+}
+
+var customPlate = new Plate("Classic", "Huli Huli", "Rice", "Mac", "Rice");
+window.localStorage.customPlate = JSON.stringify(customPlate);
+
 if (typeof(Storage) === undefined) {
   alert("Warning: Your browser does not support web storage. It is unlikely this website will work without it. We recommend switching to a newer browser before using this website.")
 }
@@ -47,16 +81,52 @@ function changeLocation() {
   if (location === "") {location = "#home";}
   $(".page"+ String(location)).show();
 
+  //back button
+  $("button.back").off().on("click", function () {
+    if (window.location.hash === "#plateBuilder")
+      window.location = "./#food";
+
+    var id = $(".page").find(".subpage:visible:first").attr("id");
+    switch(id){
+      case("food-main"):
+      case("drink-main"):
+      case("sides-main"):
+        window.location = "./#home";
+        break;
+      case("food-size"):
+      case("food-mixed-plate-1"):
+        showSubpage("food-main");
+        break;
+      case("food-mixed-plate-2"):
+        showSubpage("food-mixed-plate-1");
+        break;
+      case("food-mixed-plate-3"):
+        showSubpage("food-mixed-plate-2");
+        break;
+      case("drink-size"):
+      case("hawaiian-sun"):
+        showSubpage("drink-main");
+        break;
+    }
+  });
+
+  //Does this make a difference? The switch really doesn't do anything.
   switch(location)
   {
     case("#plateBuilder"):
     {
         //Form content
         refreshForm();
-        $("form").on("change", refreshForm);
+        $("form").off().on("change", refreshForm);
+
+        $("button.custom-plate").off().on("click", function() {
+          alert((window.localStorage.customPlate).toSource());
+          addToOrder(JSON.parse(window.localStorage.customPlate));
+          window.location = "./#home";
+        });
 
         //Set up tabs on sidebar
-        $("td").on("click", function() {
+        $("td").off().on("click", function() {
           if ($(".tab-head#"+$(this).attr("id")).is(":visible"))
             $(".tab-head#"+$(this).attr("id")).next().slideToggle("slow");
         });
@@ -64,7 +134,7 @@ function changeLocation() {
           $('selector').css('cursor','pointer');
         });
 
-        $(".tab-head").on("click", function() {
+        $(".tab-head").off().on("click", function() {
           $(this).next().slideToggle("slow");
         });
         $(".tab-head").on("hover", function() {
@@ -76,29 +146,14 @@ function changeLocation() {
     case("#drink"):
     {
       //Initial setup
+      showSubpage("drink-main");
       $(".subpage#drink-main").show();
-      $(".subpage#drink-size").hide();
-      $(".subpage#hawaiian-sun").hide();
-
-      //back button
-      $("button.back").off().on("click", function() {
-        var id = $(".page").find(".subpage:visible:first").attr("id");
-        if (id === "drink-main")
-            window.location = "./#home";
-        else
-        {
-          $(".subpage#drink-main").show();
-          $(".subpage#drink-size").hide();
-          $(".subpage#hawaiian-sun").hide();
-        }
-      });
-
       //selection
       var name = "";
       var size = "";
+      var newDrink = new OrderItem("Drink","Undefined");
       $("ul.drink").children("li").each(function() {
         //Get the id of the containing element
-        var newDrink = new OrderItem("Drink","Undefined");
         //Action on click
         $(this).off().on("click", function() {
           var id = $(".page").find(".subpage:visible:first").attr("id");
@@ -117,15 +172,11 @@ function changeLocation() {
               }
               else if (name === "Hawaiian Sun")
               {
-                $(".subpage#drink-main").hide();
-                $(".subpage#drink-size").hide();
-                $(".subpage#hawaiian-sun").show();
+                showSubpage("hawaiian-sun");
                 break;
               }
 
-              $(".subpage#drink-main").hide();
-              $(".subpage#drink-size").show();
-              $(".subpage#hawaiian-sun").hide();
+              showSubpage("drink-size")
               break;
             }
 
@@ -144,139 +195,99 @@ function changeLocation() {
     }
 
     case("#food"):
+    {
+      //Initial setup
+      showSubpage("food-main");
+
+      var name = "";
+      var size = "";
+      $("ul.food").children("li").each(function() {
+        $(this).off().on("click", function() {
+          var id = $(".page").find(".subpage:visible:first").attr("id");
+          switch(id)
+          {
+            case ("food-main"):
+            {
+              name = $(this).text();
+              if (name.includes("Custom"))
+              {
+                window.location = "./#plateBuilder";
+                break;
+              }
+              if (name.includes("Sandwich") || name.includes("Salad"))
+              {
+                var plate = makePlate(name);
+                addToOrder(plate);
+                window.location = "./#home";
+                break;
+              }
+              if (name.includes("Mixed"))
+              {
+                showSubpage("food-mixed-plate-1");
+                break;
+              }
+
+              showSubpage("food-size");
+              break;
+            }
+
+            case("food-size"):
+            {
+              size = $(this).text();
+              var plate = makePlate(name, size);
+              addToOrder(plate);
+              window.location = ("./#home");
+              break;
+            }
+
+            case("food-mixed-plate-1"):
+            case("food-mixed-plate-2"):
+            case("food-mixed-plate-3"):
+            {
+              var p = id.substring(id.length - 1);
+              if (p == 1){
+                name += $(this).text() + " & ";
+                showSubpage("food-mixed-plate-2");
+              }
+              else if (p == 2){
+                name += $(this).text();
+                showSubpage("food-mixed-plate-3");
+              }
+              else if (p == 3){
+                size = $(this).text();
+                addToOrder(makePlate(name,size));
+                window.location = "./#home";
+              }
+              break;
+            }
+
+          }
+        });
+      });
+    }
 
     case("#sides"):
     {
+      $(".subpage#sides-main").show();
 
+      $("ul.sides").children("li").each(function() {
+        $(this).off().on("click", function() {
+          //Since there is only one page:
+          var newSide = new OrderItem("Side",$(this).text());
+          addToOrder(newSide);
+          window.location = "./#home";
+        });
+      });
     }
   }
 }
 
-/****************
-*** CUSTOM PLATES
-*****************/
+/***********************
+*** PLATE AND NAVIGATION
+***********************/
 function refreshForm() {  var large = "";
   var plateType = $("input[type='radio'][name='plate']:checked").val();
   var locarb = $("input[type='checkbox'][name='entree'][value='locarb']:checked").val();
-
-  switch (plateType)
-  {
-    case ("large"):
-    case ("classic"):
-    {
-      //change table - colspans
-      $("td#side1").attr("colspan","1");
-      $("td#side2").attr("colspan","1");
-      $("td#entree").attr("colspan","1");
-      $("td#bed").attr("colspan","1");
-      //hide salad table
-      $("table#plate").show();
-      $("table#salad").hide();
-      //make sure all are visible
-      $("td#side1").show();
-      $("td#side2").show();
-      $("td#entree").show();
-      $("td#bed").show();
-      $("td#bun").hide();
-      //change sidebar layout
-      if (!locarb){
-        $(".tab#side1").show("slow");
-        $(".tab#side2").show("slow");
-        $(".tab#bed").show("slow");
-      }
-      $(".tab#entree").show("slow");
-      $(".tab#bun").hide("slow");
-      $(".tab#salad").hide("slow");
-      //set large size
-      if (plateType === "large")
-        large = "large_";
-
-      break;
-    }
-    case ("small"):
-    {
-      //change table colspans
-      $("td#side1").attr("colspan","2");
-      $("td#side2").attr("colspan","0");
-      $("td#entree").attr("colspan","1");
-      $("td#bed").attr("colspan","1");
-      //hide salad table
-      $("table#plate").show();
-      $("table#salad").hide();
-      //make sure side 2 is hidden, rest are visible
-      $("td#side1").show();
-      $("td#side2").hide();
-      $("td#entree").show();
-      $("td#bed").show();
-      $("td#bun").hide();
-      //change sidebar layout
-      if (!locarb){
-        $(".tab#side1").show("slow");
-        $(".tab#side2").hide("slow");
-        $(".tab#bed").show("slow");
-      }
-      $(".tab#entree").show("slow");
-      $(".tab#bun").hide("slow");
-      $(".tab#salad").hide("slow");
-      break;
-    }
-    case ("salad"):
-    {
-      //change table colspans
-      $("td#side1").attr("colspan","0");
-      $("td#side2").attr("colspan","0");
-      $("td#entree").attr("colspan","0");
-      $("td#bed").attr("colspan","0");
-      //show salad table
-      $("table#plate").hide();
-      $("table#salad").show();
-      //make sure side 2 is hidden, rest are visible
-      $("td#side1").hide();
-      $("td#side2").hide();
-      $("td#entree").hide();
-      $("td#bed").hide();
-      $("td#bun").hide();
-      //change sidebar layout
-      $(".tab#side1").hide("slow");
-      $(".tab#side2").hide("slow");
-      $(".tab#entree").show("slow");
-      $(".tab#bed").hide("slow");
-      $(".tab#bun").hide("slow");
-      $(".tab#salad").show("slow");
-      //change salad toble content - best to just do it here
-      var str = "";
-      $("input[type='checkbox'][name='salad']:checked").each(function() {
-        $("td#salad").append("<img src='./img/classic/salad"+$(this).val()+".png'/>");
-      });
-      break;
-    }
-    case ("sandwich"):
-    {
-      //change table colspans
-      $("td#side1").attr("colspan","2");
-      $("td#side2").attr("colspan","0");
-      $("td#entree").attr("colspan","1");
-      $("td#bed").attr("colspan","0");
-      $("td#bun").attr("colspan","1");
-      //hide salad table
-      $("table#plate").show();
-      $("table#salad").hide();
-      //make sure side 2 is hidden, rest are visible
-      $("td#side1").show();
-      $("td#side2").hide();
-      $("td#entree").show();
-      $("td#bed").hide();
-      $("td#bun").show();
-      //change sidebar layout
-      $(".tab#side1").show("slow");
-      $(".tab#side2").hide("slow");
-      $(".tab#entree").show("slow");
-      $(".tab#bed").hide("slow");
-      $(".tab#bun").show("slow");
-      $(".tab#salad").hide("slow");
-      break;
-    }
-  }
 
   //Get info
   var extra = getIfDefined("input[type='checkbox'][name='entree'][value='_extra']:checked");
@@ -320,6 +331,95 @@ function refreshForm() {  var large = "";
   $("td#bed").html("<img src='./img/classic/"+bed+"_bed.png' alt="+bed+">");
   $("td#entree").html("<img src='./img/classic/"+"entree_"+entree+".png' alt="+entree+">");
 
+  switch (plateType)
+  {
+    case ("large"):
+    case ("classic"):
+    {
+      //hide salad table
+      $("table#plate").show();
+      $("table#salad").hide();
+      //make sure all are visible
+      showTD(["side1","side2","entree","bed"]);
+      //change sidebar layout
+      if (!locarb){
+        showTab(["plate","entree","side1","side2","bed"], "slow");
+      }
+      else {
+        showTab(["plate","entree"], "slow");
+      }
+      //set large size
+      if (plateType === "large")
+        large = "large_";
+
+      //save Order
+      var entree = $()
+      var plate = new Plate(plateType,entree,bed,side1,side2);
+      window.localStorage.customPlate = JSON.stringify(plate);
+
+      break;
+    }
+    case ("small"):
+    {
+      //hide salad table
+      $("table#plate").show();
+      $("table#salad").hide();
+      //make sure side 2 is hidden, rest are visible
+      showTD(["entree","side1","bed"],["1","2","1"]);
+      //change sidebar layout
+      if (!locarb){
+        showTab(["plate","entree","side1","bed"],"slow");
+      }
+      else {
+        showTab(["plate","entree"],"slow");
+      }
+
+      var plate = new SmallPlate(entree,bed,side1);
+      window.localStorage.customPlate = JSON.stringify(plate);
+      break;
+    }
+    case ("salad"):
+    {
+      //show salad table
+      $("table#plate").hide();
+      $("table#salad").show();
+      //hide all
+      showTD("salad");
+      //change sidebar layout
+      showTab(["plate","salad"],"slow");
+      //change salad toble content - best to just do it here
+      var str = "";
+      var boolArr = [];
+      $("input[type='checkbox'][name='salad']:checked").each(function() {
+        $("td#salad").append("<img src='./img/classic/salad"+$(this).val()+".png'/>");
+      });
+
+      $("input[type='checkbox'][name=salad]").each(function(i) {
+        boolArr[i] = $(this).is(":checked");
+      });
+
+      var plate = new Salad(entree, boolArr);
+      window.localStorage.customPlate = JSON.stringify(plate);
+
+      break;
+    }
+    case ("sandwich"):
+    {
+      //hide salad table
+      $("table#plate").show();
+      $("table#salad").hide();
+      //showTD
+      showTD(["side1","entree","bun"],["2","1","1"]);
+      //change sidebar layout
+      showTab(["plate","entree","side1","bun"],"slow");
+
+      var toasted = $("input[type='checkbox'][value='_toasted']").is(":checked");
+      var mayo = $("input[type='checkbox'][value='_mayo']").is(":checked");
+      var plate = new Sandwich(entree,side1,[toasted,mayo]);
+      window.localStorage.customPlate = JSON.stringify(plate);
+      break;
+    }
+  }
   //caption
   /*
   var cap = "";
@@ -344,6 +444,150 @@ function refreshForm() {  var large = "";
   $("caption").text(cap);
   */
 }
+function addToOrder(item) {
+  var order = JSON.parse(localStorage.order);
+  order.push(item);
+  localStorage.order = JSON.stringify(order);
+}
+function makePlate(name, size) {
+  var plate;
+  var bed = "rice";
+  var side1 = "mac";
+  var side2 = "rice";
+  var entree = "";
+  if (Array.isArray(name))
+  {
+    entree = name[0];
+    bed = name[1];
+    side1 = name[2];
+    side2 = name[3];
+  }
+  else {
+    if (name.includes("Huli Huli")) entree += "Huli Huli";
+    if (name.includes("Molokai")) entree += "Molokai";
+    if (name.includes("Honolulu")) entree += "Honolulu";
+    if (name.includes("Luau Pork")) entree += "Luau Pork";
+    if (name.includes("Grilled Vegetables")) entree += "Grilled Vegetables";
+  }
+
+
+  //Plates
+  if (size !== undefined) {
+    //Set entree
+
+    //Set size
+    if (size === "Small")
+      plate = new SmallPlate(entree, bed, side1);
+    if (size === "Classic")
+      plate = new Plate("Classic",entree, bed, side1, side2);
+    if (size === "Large")
+      plate = new Plate("Large",entree, bed, side1, side2);
+
+    //Set hot
+    if (entree === "Molokai")
+      plate.hot = $('input[name="hot"]:checked').length > 0;
+    else
+      plate.hot = false;
+  }
+  //Sandwich, Salad
+  else {
+    if (name.includes("Salad"))
+    {
+      plate = new Salad("Huli Huli", true, true, true, true, true);
+      return plate;
+    }
+    if (name.includes("Sandwich"))
+    {
+      var entree = "Luau Pig";
+      if (name.includes("Huli Huli")) entree = "Huli Huli";
+      plate = new Sandwich(entree, "mac salad", true, true);
+    }
+  }
+  return plate;
+
+}
+function showSubpage(name) {
+  $(".subpage").hide();
+  if (Array.isArray(name))
+  {
+    name.forEach(function(element) {
+      $(".subpage#"+element).show();
+    });
+  }
+  else
+    $(".subpage#"+name).show();
+}
+function showTab(name, speed = "", hideOthers = true, hideSpeed = "") {
+  //Array
+  if (Array.isArray(name)) {
+    if (hideOthers) {
+      var filter = ".tab:not(";
+      name.forEach(function(element, index) {
+        filter += "#";
+        filter += element;
+        if (index === name.length - 1)
+          filter += ")";
+        else filter += ",";
+      });
+      $(filter).hide(hideSpeed);
+    }
+
+    if (Array.isArray(speed)) {
+      name.forEach(function(element, index) {
+        $(".tab#"+element).show(speed[index]);
+      });
+    }
+    else {
+        name.forEach(function(element) {
+          $(".tab#"+element).show(speed);
+      });
+    }
+  }
+  //String
+  else {
+    if (hideOthers) {
+      $(".tab:not(#"+name+")").hide(hideSpeed);
+    }
+    $(".tab#"+name).show(speed);
+  }
+}
+function showTD(name, colspans, hideOthers = true) {
+
+  if (name == undefined) {
+    $("td").hide();
+    return;
+  }
+
+  if (Array.isArray(name)) {
+    if (hideOthers) {
+      var filter = "td:not(";
+      name.forEach(function(element, index) {
+        filter += "#";
+        filter += element;
+        if (index === name.length - 1)
+          filter += ")";
+        else filter += ",";
+      });
+      $(filter).hide();
+      $(filter).attr("colspan","0");
+    }
+
+    name.forEach(function(element, index) {
+      $("td#"+element).show();
+      if (Array.isArray(colspans))
+        colspan = colspans[index];
+      else colspan = "1";
+      $("td#"+element).attr("colspan",colspan);
+    });
+  }
+  else {
+    if (hideOthers) {
+      $("td:not(#"+name+")").hide();
+      $("td:not(#"+name+")").attr("colspan","0");
+    }
+    $("td#"+name).show();
+  }
+}
 
 /*******************
 *** HELPER FUNCTIONS
@@ -355,9 +599,4 @@ function getIfDefined(string) {
   var v = $(string).val();
    if (v === undefined) return "";
    else return v;
-}
-function addToOrder(item) {
-  var order = JSON.parse(localStorage.order);
-  order.push(item);
-  localStorage.order = JSON.stringify(order);
 }
