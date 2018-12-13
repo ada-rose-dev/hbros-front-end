@@ -4,6 +4,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link href="./css/styles.css" rel="stylesheet" type="text/css"/>
   <script src="./menu.js" type="text/javascript"> </script>
+  <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 </head>
 
 <body>
@@ -11,15 +13,32 @@
     <a href="#home"> <img src="./img/logos/logo-small.svg"></a>
   </header>
 
+  <button class="back"></button>
+
   <div class="page" id="home">
-    <h2>Welcome to Hawaiian Bros!</h2>
-    <h3>Select an option below to add it to your order.</h3>
-    <div class="container" id="home">
-      <ul style="list-style-type:none">
-        <li><a href="#drink">drink</a></li>
-        <li><a href="#food">food</a></li>
-        <li><a href="#sides">sides</a></li>
-      </ul>
+    <div class="subpage" id="home">
+      <h1>Welcome to Hawaiian Bros!</h1>
+      <h2>Select an option below to add it to your order.</h2>
+      <div class="homepage">
+        <div class="hp-sub">
+          <a href="#drink">
+          <img src="./img/order-icons/drink-large.png" />
+          <h3>drinks</h3>
+          </a>
+        </div>
+        <div class="hp-sub">
+          <a href="#food">
+          <img src="./img/order-icons/plate-classic.png" />
+          <h3>plates</h3>
+          </a>
+        </div>
+        <div class="hp-sub">
+          <a href="#sides">
+          <img src="./img/order-icons/side.png" />
+          <h3>sides</h3>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -27,28 +46,42 @@
     <div class="subpage" id="drink-main">
       <h2>Select a drink:</h2>
       <ul class="drink" id="drink-list">
-        <li>Coke</li>
-        <li>Diet Coke</li>
-        <li>Coke Zero</li>
-        <li>Mellow Yellow</li>
-        <li>Lemonade</li>
-        <li>Dr Pepper</li>
+        <li><img class="icon" src="./img/drinks/soft/coke-Parent.png"/>Coke</li>
+        <li><img class="icon" src="./img/drinks/soft/coke-zero-Parent.png"/>Diet Coke</li>
+        <li><img class="icon" src="./img/drinks/soft/Diet-Coke-Parent.png"/>Coke Zero</li>
+        <li><img class="icon" src="./img/drinks/soft/Fanta_Bubble_Regular.png"/>Fanta Orange</li>
+        <li><img class="icon" src="./img/drinks/soft/Mello-Yello-Parent.png"/>Mello Yello</li>
+        <li><img class="icon" src="./img/drinks/soft/Minute-Maid-Lemonade2.png"/>Lemonade</li>
+        <li><img class="icon" src="./img/drinks/soft/DrPepper_Bubble_Regular.png"/>Dr Pepper</li>
+        <li><img class="icon" src="./img/drinks/soft/Sprite_Bubble_Regular.png"/>Sprite</li>
       </ul>
       <ul class="drink" id="drink-others">
         <li>Water Bottle</li>
         <li>Hawaiian Sun</li>
+        <li>Tea</li>
       </ul>
-      <button class="back">Back</button>
     </div>
 
     <div class="subpage" id="hawaiian-sun">
+      <h2>Choose your flavor:</h2>
       <ul class="drink" id="hawaiian-sun-list">
-        <li>Guava Nectar</li>
-        <li>Passion Orange</li>
-        <li>Lilikoi Passion</li>
-        <li>etc.</li>
+        <li>Guava Nectar <img class="icon" src="./img/drinks/hs/GN2.jpg"/></li>
+        <li>Lilikoi Passion <img class="icon" src="./img/drinks/hs/LP2.jpg"/></li>
+        <li>Luau Punch <img class="icon" src="./img/drinks/hs/LP.jpg"/></li>
+        <li>Passion Orange <img class="icon" src="./img/drinks/hs/PAO.jpg"/></li>
+        <li>Pass-O-Guava Nectar <img class="icon" src="./img/drinks/hs/POG2.jpg"/></li>
+        <li>Strawberry Lilikoi <img class="icon" src="./img/drinks/hs/SL.jpg"/></li>
       </ul>
-      <button class="back">Back</button>
+    </div>
+
+    <div class="subpage" id="drink-tea">
+      <h2>Choose your flavor:</h2>
+      <ul class="drink" id="drink-tea">
+        <li>Unsweetened Iced Tea</li>
+        <li>Sweetened Iced Tea</li>
+        <li>Raspberry Iced Tea</li>
+        <li>Sweet Green Iced Tea</li>
+      </ul>
     </div>
 
     <div class="subpage" id="drink-size">
@@ -57,7 +90,6 @@
         <li>Medium</li>
         <li>Large</li>
       </ul>
-      <button class="back">Back</button>
     </div>
   </div>
 
@@ -80,7 +112,6 @@
         <li>Mixed Plate</li>
         <li>Custom Plate</li>
       </ul>
-      <button class="back">Back</button>
     </div>
 
     <div class="subpage" id="food-size">
@@ -90,7 +121,7 @@
         <li>Classic</li>
         <li>Large</li>
       </ul>
-      <button class="back">Back</button>
+
     </div>
 
     <!-- MIXED PLATES-->
@@ -106,7 +137,7 @@
         <li>4. Grilled Vegetables</li>
         <li>5. Luau Pork</li>
       </ul>
-      <button class="back">Back</button>
+
     </div>
 
     <div class="subpage" id="food-mixed-plate-2">
@@ -121,7 +152,7 @@
         <li>4. Grilled Vegetables</li>
         <li>5. Luau Pork</li>
       </ul>
-      <button class="back">Back</button>
+
     </div>
 
     <div class="subpage" id="food-mixed-plate-3">
@@ -130,7 +161,7 @@
         <li>Classic</li>
         <li>Large</li>
       </ul>
-      <button class="back">Back</button>
+
     </div>
   </div>
 
@@ -142,7 +173,7 @@
         <li>Grilled Vegetables</li>
         <li>Pineapple</li>
       </ul>
-      <button class="back">Back</button>
+
     </div>
   </div>
 
@@ -181,7 +212,7 @@
       </table>
 
       <button class="custom-plate">Add to order!</button>
-      <button class="back">Back</button>
+
     </div>
 
     <sidebar>
@@ -332,9 +363,14 @@
 
 
   <footer>
-
+    <div class="footer-content">
+    </div>
   </footer>
 
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="slick/slick.min.js"></script>
 </body>
 
 </html>

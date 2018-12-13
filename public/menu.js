@@ -62,15 +62,31 @@ $(document).ready(function(){
   //Change location
   changeLocation();
   window.onhashchange = changeLocation;
-
+  //update footer
+  $('.footer-content').slick({
+    slidesToShow: 10,
+    slidesToScroll: 10,
+    variableWidth: true,
+  });
 })
 
 /**************
 *** CHANGE PAGE
 ***************/
 function changeLocation() {
-  //update footer
-  $("footer").text((localStorage.order));
+
+  $('.footer-img').on("mouseenter", function() {
+    $(this).animate({
+      width: "110px",
+      height: "110px"
+    });
+  });
+  $('.footer-img').on("mouseleave", function () {
+    $(this).animate({
+      width: "80px",
+      height: "80px"
+    });
+  });
 
   //change location
   var location = window.location.hash;
@@ -82,6 +98,10 @@ function changeLocation() {
   $(".page"+ String(location)).show();
 
   //back button
+  if (window.location.hash === "#home")
+      $("button.back").hide();
+  else $("button.back").show();
+
   $("button.back").off().on("click", function () {
     if (window.location.hash === "#plateBuilder")
       window.location = "./#food";
@@ -105,6 +125,7 @@ function changeLocation() {
         break;
       case("drink-size"):
       case("hawaiian-sun"):
+      case("drink-tea"):
         showSubpage("drink-main");
         break;
     }
@@ -113,14 +134,18 @@ function changeLocation() {
   //Does this make a difference? The switch really doesn't do anything.
   switch(location)
   {
+    case("#home"):
+    {
+      showSubpage("home");
+    }
     case("#plateBuilder"):
     {
         //Form content
+
         refreshForm();
         $("form").off().on("change", refreshForm);
 
         $("button.custom-plate").off().on("click", function() {
-          alert((window.localStorage.customPlate).toSource());
           addToOrder(JSON.parse(window.localStorage.customPlate));
           window.location = "./#home";
         });
@@ -147,11 +172,10 @@ function changeLocation() {
     {
       //Initial setup
       showSubpage("drink-main");
-      $(".subpage#drink-main").show();
       //selection
       var name = "";
       var size = "";
-      var newDrink = new OrderItem("Drink","Undefined");
+      var newDrink = new OrderItem("Drink");
       $("ul.drink").children("li").each(function() {
         //Get the id of the containing element
         //Action on click
@@ -159,6 +183,7 @@ function changeLocation() {
           var id = $(".page").find(".subpage:visible:first").attr("id");
 
           switch (id) {
+            case("drink-tea"):
             case("drink-main"):
             {
               name = $(this).text();
@@ -173,6 +198,11 @@ function changeLocation() {
               else if (name === "Hawaiian Sun")
               {
                 showSubpage("hawaiian-sun");
+                break;
+              }
+              else if (name === "Tea")
+              {
+                showSubpage("drink-tea");
                 break;
               }
 
@@ -192,6 +222,7 @@ function changeLocation() {
           }
         });
       });
+      break;
     }
 
     case("#food"):
@@ -264,11 +295,13 @@ function changeLocation() {
           }
         });
       });
+
+      break;
     }
 
     case("#sides"):
     {
-      $(".subpage#sides-main").show();
+      showSubpage("sides-main");
 
       $("ul.sides").children("li").each(function() {
         $(this).off().on("click", function() {
@@ -282,10 +315,14 @@ function changeLocation() {
   }
 }
 
-/***********************
-*** PLATE AND NAVIGATION
-***********************/
-function refreshForm() {  var large = "";
+/******************
+*** PLATE AND ORDER
+*******************/
+function refreshForm(loadedPlate){
+  if (loadedPlate !== undefined)
+    loadPlate(loadedPlate);
+
+  var large = "";
   var plateType = $("input[type='radio'][name='plate']:checked").val();
   var locarb = $("input[type='checkbox'][name='entree'][value='locarb']:checked").val();
 
@@ -353,7 +390,6 @@ function refreshForm() {  var large = "";
         large = "large_";
 
       //save Order
-      var entree = $()
       var plate = new Plate(plateType,entree,bed,side1,side2);
       window.localStorage.customPlate = JSON.stringify(plate);
 
@@ -415,7 +451,7 @@ function refreshForm() {  var large = "";
 
       var toasted = $("input[type='checkbox'][value='_toasted']").is(":checked");
       var mayo = $("input[type='checkbox'][value='_mayo']").is(":checked");
-      var plate = new Sandwich(entree,side1,[toasted,mayo]);
+      var plate = new Sandwich(entree,side1,toasted,mayo);
       window.localStorage.customPlate = JSON.stringify(plate);
       break;
     }
@@ -444,10 +480,9 @@ function refreshForm() {  var large = "";
   $("caption").text(cap);
   */
 }
-function addToOrder(item) {
-  var order = JSON.parse(localStorage.order);
-  order.push(item);
-  localStorage.order = JSON.stringify(order);
+function loadPlate(loadedPlate) {
+  //This function loads in a plate for the custom plate editor.
+  //This will allow the plate to be edited via the footer.
 }
 function makePlate(name, size) {
   var plate;
@@ -506,16 +541,30 @@ function makePlate(name, size) {
   return plate;
 
 }
+function addToOrder(item) {
+  var order = JSON.parse(localStorage.order);
+  order.push(item);
+  localStorage.order = JSON.stringify(order);
+  alert(JSON.stringify(order));
+  //update footer
+  updateFooter(item);
+}
+
+/****************************
+*** NAVIGATION AND AESTHETICS
+*****************************/
 function showSubpage(name) {
   $(".subpage").hide();
   if (Array.isArray(name))
   {
     name.forEach(function(element) {
-      $(".subpage#"+element).show();
+      $(".subpage#"+element).fadeIn();
     });
   }
   else
-    $(".subpage#"+name).show();
+  {
+    $(".subpage#"+name).fadeIn();
+  }
 }
 function showTab(name, speed = "", hideOthers = true, hideSpeed = "") {
   //Array
@@ -587,6 +636,41 @@ function showTD(name, colspans, hideOthers = true) {
     }
     $("td#"+name).show();
   }
+}
+function updateFooter(item) {
+  //parse item
+  var icon = "";
+  switch (item.type) {
+    case("Sandwich"):
+    case("Salad"):
+    case("Plate"):
+      icon = "plate-classic";
+      break;
+
+    case("SmPlate"):
+      icon = "plate-small";
+      break;
+
+    case("Drink"):
+      switch(item.value[1]){
+        case("Medium"):
+          icon = "drink-medium";
+          break;
+        case("Large"):
+          icon = "drink-large";
+          break;
+        case("Hawaiian Sun"):
+          icon = "drink-hs";
+          break;
+      }
+      break;
+
+    case("Side"):
+      icon = "side";
+      break;
+  }
+
+  $(".footer-content").slick("slickAdd","<div><img class='footer-img' src='./img/order-icons/"+icon+".png' /></div>")
 }
 
 /*******************

@@ -1,5 +1,21 @@
 .page {
-  display: flex;
+  //display: block;
+  background-image: linear-gradient(
+      rgba(255,127,0,0), rgba(255,127,0,0.5)), url("../img/bg/main-bg.jpg");
+  background-size: cover;
+  height: 80%;
+  margin: 0px;
+  padding: 0px;
+  color: #fff;
+}
+
+.subpage {
+  width: 80%;
+  margin: auto;
+  background-color: rgba(0,0,0,0.5);
+
+  height: 100%;
+  overflow: auto;
 }
 
 header {
@@ -17,27 +33,53 @@ body {
   padding: 0px;
 }
 
-.plate {
-    background-color: #fff;
-    width: 70%;
-    position: relative;
-    height: 100%;
-    padding: 50px;
+.page#plateBuilder {
+  display: flex;
 }
 
-table {
+.plate {
+    color: #fff;
+    width: 70%;
+    height: 80%;
+    margin: 5%;
+}
+
+table#plate, table#salad {
+  background-color: #fff;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%; /*This should reflect the size of the bg image and the window*/
-    table-layout: fixed;
-    /*border: 2px solid black;*/
+    max-width: 500px;
+    max-height: 500px;
+    //height: 100%;
+
+    border: 2px solid black;
+
+    td {
+      border: 1px solid black;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    :after { //make it square
+      content: "";
+      padding-bottom: 100%;
+    }
 }
 
 sidebar {
-  background-color: #ccc;
+  background-color: rgba(0,0,0,0.25);
   width: 30%;
   position: relative;
+  overflow: auto;
 }
 
 .tab {
+  background-color: #ccc;
+  color: #000;
   border: 1px solid black;
   padding: 0 auto 0 auto;
   &-content {
@@ -50,7 +92,71 @@ img {
   width: auto;
   height: auto;
 }
+img.icon {
+  max-width: 80px;
+  max-height: 80px;
+  padding: 8px;
+  vertical-align: middle;
+}
+
+ul {
+  list-style-type: none;
+}
 
 td#salad img {
   position: absolute;
+}
+
+h1 {
+
+  text-align:center;
+  padding: 8px;
+}
+
+h2 {
+  position: relative;
+  text-align:center;
+  padding: 8px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+button.back {
+  position: absolute;
+  margin: 8px;
+  width: 48px;
+  height: 48px;
+  background-image: url("../img/buttons/back.png");
+  background-size: contain;
+  z-index: 100;
+}
+
+footer {
+  margin: 0px;
+  background-color: rgba(200,200,200,0.8);
+  position: absolute;
+  bottom: 0px;
+  display: inline;
+  width: 100%;
+  height: 8%;
+  min-height: 80px;
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.homepage {
+  display: flex;
+
+  .hp-sub {
+    text-align: center;
+    margin: 5% auto 5% auto;
+
+    flex: auto;
+  }
 }
