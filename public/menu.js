@@ -75,19 +75,6 @@ $(document).ready(function(){
 ***************/
 function changeLocation() {
 
-  $('.footer-img').on("mouseenter", function() {
-    $(this).animate({
-      width: "110px",
-      height: "110px"
-    });
-  });
-  $('.footer-img').on("mouseleave", function () {
-    $(this).animate({
-      width: "80px",
-      height: "80px"
-    });
-  });
-
   //change location
   var location = window.location.hash;
   $(".page").each(function() {
@@ -108,9 +95,7 @@ function changeLocation() {
 
     var id = $(".page").find(".subpage:visible:first").attr("id");
     switch(id){
-      case("food-main"):
-      case("drink-main"):
-      case("sides-main"):
+      default:
         window.location = "./#home";
         break;
       case("food-size"):
@@ -311,6 +296,17 @@ function changeLocation() {
           window.location = "./#home";
         });
       });
+      break;
+    }
+
+    case("#checkout"): {
+      showSubpage("checkout-main");
+      $("ul.checkout-js").text("");
+      var order = JSON.parse(window.localStorage.order);
+      order.forEach(function(element, i) {
+        $("ul.checkout-js").append("<li>"+JSON.stringify(order[i])+"</li>");
+      });
+      break;
     }
   }
 }
@@ -545,7 +541,6 @@ function addToOrder(item) {
   var order = JSON.parse(localStorage.order);
   order.push(item);
   localStorage.order = JSON.stringify(order);
-  alert(JSON.stringify(order));
   //update footer
   updateFooter(item);
 }
