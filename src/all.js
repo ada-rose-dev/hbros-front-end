@@ -1,21 +1,10 @@
 import $ from 'jquery';
 import slick from 'slick-carousel';
+import OrderItem from './classes/OrderItem';
+
 /**********************
 *** PRELIMINARY SET-UP
 *********************/
-class OrderItem {
-  constructor(type,value)
-  {
-    this.type = type;
-    this.value = value;
-  }
-
-  setValue(val)
-  {
-    this.value = val;
-  }
-}
-
 class Plate extends OrderItem {
   constructor(size, entree, bed, side1, side2) {
     super("Plate",[size, entree, bed, side1, side2]);
@@ -62,7 +51,6 @@ window.localStorage.order = JSON.stringify(order);
 ***************/
 export function changeLocation() {
 
-  console.log('changing');
   //change location
   var location = window.location.hash;
   $(".page").each(function() {
