@@ -54,3 +54,21 @@ LOG
 11-27-18
 . Here's how the page/subpage system will work:
 . Pages will load and have their subpages hidden.
+
+
+
+
+rest: ...
+	Take the rest and put it in an array
+	OrderItem(type, ...value)
+	-> new OrderItem("Sandwich", "Huli Huli", "falsdflsdakf")
+	< {"Sandwich", ["Huli Huli", "falsdflsdakf"]}
+
+Big switch: router
+	it's fine lol
+	maybe split it up into new files
+	can use express with /
+	for SPA maybe use Navigo
+		>When finding packages check weekly downloads
+	Have a function file for each page.
+	Make your router readable.
